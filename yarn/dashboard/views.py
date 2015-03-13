@@ -14,7 +14,8 @@ def cluster(request, template_name='dashboard/cluster.html'):
 
 def nodes(request, template_name="dashboard/nodes.html"):
     current_app = 'nodes'
-    result = requests.get(settings.API_URL+"cluster/nodes", headers=headers).json()['nodes']
+    payload = request.GET.dict()
+    result = requests.get(settings.API_URL+"cluster/nodes", params=payload, headers=headers).json()['nodes']
     return render(request, template_name, locals())
 
 def process_children(element):

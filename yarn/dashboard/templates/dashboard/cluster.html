@@ -2,31 +2,21 @@
 
 {% block content %}
 
+<h4>App / Container Metrics</h4>
 
-<table>
-    <tbody>
+<table class="table">
+    <thead style="background-color:#eee;">
         <tr>
-            <td>Apps Submitted</td>
-            <td>Apps Pending</td>
-            <td>Apps Running</td>
-            <td>Apps Completed</td>
-            <td>Containers Running</td>
-            <td>Containers Reserved</td>
-            <td>Containers Pending</td>
-            <td>Total Memory</td>
-            <td>Memory Used</td>
-            <td>Memory Reserved</td>
-            <td>Available Memory</td>
-            <td>VCores Total</td>
-            <td>VCores Used</td>
-            <td>VCores Reserved</td>
-            <td>Total Nodes</td>
-            <td>Active Nodes</td>
-            <td>Decommissioned Nodes</td>
-            <td>Lost Nodes</td>
-            <td>Unhealthy Nodes</td>
-            <td>Rebooted Nodes</td>
+            <th>Apps Submitted</th>
+            <th>Apps Pending</th>
+            <th>Apps Running</th>
+            <th>Apps Completed</th>
+            <th>Containers Running</th>
+            <th>Containers Reserved</th>
+            <th>Containers Pending</th>
         </tr>
+    </thead>
+    <tbody>
         <tr>
             <td>{{result.appsSubmitted}}</td>
             <td>{{result.appsPending}}</td>
@@ -35,6 +25,25 @@
             <td>{{result.containersAllocated}}</td>
             <td>{{result.containersReserved}}</td>
             <td>{{result.containersPending}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Resource Usage Metrics</h4>
+<table class="table">
+    <thead style="background-color:#eee;">
+        <tr>
+            <th>Total Memory</th>
+            <th>Memory Used</th>
+            <th>Memory Reserved</th>
+            <th>Available Memory</th>
+            <th>VCores Total</th>
+            <th>VCores Used</th>
+            <th>VCores Reserved </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
             <td>{{result.totalMB}}</td>
             <td>{{result.allocatedMB}}</td>
             <td>{{result.reservedMB}}</td>
@@ -42,22 +51,38 @@
             <td>{{result.totalVirtualCores}}</td>
             <td>{{result.allocatedVirtualCores}}</td>
             <td>{{result.reservedVirtualCores}}</td>
-            <td>{{result.totalNodes}}</td>
-            <td>{{result.activeNodes}}</td>
-            <td>{{result.decommissionedNodes}}</td>
-            <td>{{result.lostNodes}}</td>
-            <td>{{result.unhealthyNodes}}</td>
-            <td>{{result.rebootedNodes}}</td>
         </tr>
     </tbody>
 </table>
 
 
-<br>
-<br>
-<br>
-<br>
+<h4>Node Metrics</h4>
+<table class="table">
+    <thead style="background-color:#eee;">
+        <tr>
+            <th>Total Nodes</th>
+            <th>Active Nodes</th>
+            <th>Decommissioned Nodes</th>
+            <th>Lost Nodes</th>
+            <th>Unhealthy Nodes</th>
+            <th>Rebooted Nodes</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="{% url 'nodes' %}">{{result.totalNodes}}</a></td>
+            <td><a href="{% url 'nodes' %}?state=RUNNING">{{result.activeNodes}}</a></td>
+            <td><a href="{% url 'nodes' %}?state=DECOMMISSIONED">{{result.decommissionedNodes}}</a></td>
+            <td><a href="{% url 'nodes' %}?state=LOST">{{result.lostNodes}}</a></td>
+            <td><a href="{% url 'nodes' %}?state=UNHEALTHY">{{result.unhealthyNodes}}</a></td>
+            <td><a href="{% url 'nodes' %}?state=REBOOTED">{{result.rebootedNodes}}</a></td>
+        </tr>
+    </tbody>
+</table>
 
+<br><br>
+
+<h4>Server Info</h4>
 <table>
 <tbody>
     {% for key, value in info.items %}

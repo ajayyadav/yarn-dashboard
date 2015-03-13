@@ -7,7 +7,6 @@
       <tr>
         <th>Rack</th>
         <th>State</th>
-        <th>Address</th>
         <th>HTTP Address</th>
         <th>Last Health Update</th>
         <th>Health Report</th>
@@ -25,8 +24,7 @@
       <tr>
         <td>{{el.rack}}</td>
         <td>{{el.state}}</td>
-        <td>{{el.id}}</td>
-        <td>{{el.nodeHTTPAddress}}</td>
+        <td><a href="{{el.nodeHTTPAddress}}">{{el.nodeHTTPAddress}}</a></td>
         <td>{{el.lastHealthUpdate}}</td>
         <td>{{el.healthReport}}</td>
         <td>{{el.numContainers}}</td>

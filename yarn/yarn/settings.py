@@ -87,4 +87,16 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-API_URL = "http://glgm1003.grid.uh1.inmobi.com:8088/ws/v1/"
+API_SERVER_URL = ""
+API_URL =  API_SERVER_URL + "/ws/v1/"
+
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+"django.core.context_processors.debug",
+"django.core.context_processors.i18n",
+"django.core.context_processors.media",
+"django.core.context_processors.static",
+"django.core.context_processors.tz",
+"django.contrib.messages.context_processors.messages",
+"context_processor.global_settings"
+)
+

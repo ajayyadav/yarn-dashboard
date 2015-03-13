@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  {% block title %}<title>Apache Falcon</title> {% endblock title %}
+  {% block title %}<title>Apache Yarn</title> {% endblock title %}
 
 
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -17,18 +17,7 @@
   <![endif]-->
 
   <link href="{{STATIC_URL}}css/falcon.css" type="text/css" rel="stylesheet" />
-  <!-- <link rel="stylesheet" href="{{STATIC_URL}}css/bootstrap-datetimepicker.min.css" /> -->
   <link rel="stylesheet" href="//cdn.datatables.net/1.10.1/css/jquery.dataTables.css" />
-  <!-- <link rel="stylesheet" href="{{ STATIC_URL }}css/select2.css"> -->
-  <!-- <link rel="stylesheet" href="{{ STATIC_URL }}css/select2-bootstrap.css"> -->
-
-  <!-- <link href="{{STATIC_URL}}css/jquery.jqplot.min.css" rel="stylesheet" media="screen"> 
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{STATIC_URL}}img/falcon-144.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{STATIC_URL}}img/falcon-114.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{STATIC_URL}}img/falcon-72.png" />
-  <link rel="apple-touch-icon-precomposed" href="{{STATIC_URL}}img/falcon-57.png" />
-  <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.png" />
- -->
 </head>
 
 
@@ -47,6 +36,10 @@
           <li id="nodes"><a href="{% url 'nodes' %}">Nodes</a></li>
           <li id="queues"><a href="{% url 'queues' %}">Queues</a></li>
           <li id="jobs"><a href="{% url 'jobs' %}?states=RUNNING">Jobs</a></li>
+          <li><a href="{{API_SERVER_URL}}/conf" target="_blank">Configuration</a></li>
+          <li><a href="{{API_SERVER_URL}}/logs" target="_blank">Local Logs</a></li>
+          <li><a href="{{API_SERVER_URL}}/stacks" target="_blank">Server Stacks</a></li>
+          <li><a href="{{API_SERVER_URL}}/metrics" target="_blank">Server Metrics</a></li>
         </ul>
       </div>
     </div>
@@ -59,20 +52,10 @@
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script> -->
-  <!--<script type="text/javascript" src="{{STATIC_URL}}js/moment.min.js"></script>-->
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  <!--<script src="{{STATIC_URL}}js/bootstrap-datetimepicker.js"></script>-->
   <script src="//cdn.datatables.net/1.10.1/js/jquery.dataTables.min.js"></script>
   <script src="//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
   <script src="{{STATIC_URL}}js/base.js"></script>
-  <!--
-  <script type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
-  <script type="text/javascript" src="{{STATIC_URL}}js/jquery.flot.selection.js"></script>
-  <script type="text/javascript" src="{{STATIC_URL}}js/jquery.flot.time.min.js"></script>
-  <script type="text/javascript" src="{{STATIC_URL}}js/jquery.flot.tooltip.min.js"></script>
-  <script type="text/javascript" src="{{STATIC_URL}}js/select2.min.js"></script>
--->
   <script type="text/javascript">
 
   $(function(){
@@ -80,11 +63,6 @@
     $('#{{current_app}}').addClass('active');
 
     $('.datatable').dataTable();
-    // $('.bootstrap-datetimepicker').datetimepicker({
-    //   autoclose: true,
-    //   todayHighlight: true,
-    //   pick12HourFormat: false
-    // });
 
 
   });
