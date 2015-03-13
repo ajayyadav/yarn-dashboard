@@ -1,0 +1,66 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+
+<table class='datatable table table-striped'>
+    <thead> 
+      <tr>
+        <th>Queue Name</th>
+        <th>State</th>
+        <th>Absolute Capacity</th>
+        <th>Absolute Max Capacity</th>
+        <th>Absolute Used Capacity</th>
+
+        <th>Containers being used</th>
+
+        <th>Used Resources</th>
+        <th>Resources Used.VCores</th>
+        <th>Resources Used.Memory</th>
+
+        
+        <th>Max Applications</th>
+        <th>Number of Applications</th>
+        <th>Max Active Applications</th>
+        <th>Num Active Applications</th>
+        <th>Num Pending Applications</th>
+
+        
+        
+
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for el in result%}
+      <tr>
+        <td><a href="{% url 'jobs' %}?queue={{el.queueName}}">{{el.queueName}}</a></td>
+        <td>{{el.state}}</td>
+        <td>{{el.absoluteCapacity}}</td>
+        <td>{{el.absoluteMaxCapacity}}</td>
+        <td>{{el.absoluteUsedCapacity}}</td>
+
+        <td>{{el.numContainers}}</td>
+        
+        <td>{{el.usedResources}}</td>
+        <td>{{el.resourcesUsed.vCores}}</td>
+        <td>{{el.resourcesUsed.memory}}</td>
+
+        <td>{{el.maxApplications}}</td>
+        <td>{{el.numApplications}}</td>
+        <td>{{el.maxActiveApplications}}</td>
+        <td>{{el.numActiveApplications}}</td>
+        <td>{{el.numPendingApplications}}</td>
+
+        
+
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>
+
+
+
+
+{% endblock content %}

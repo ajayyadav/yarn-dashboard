@@ -1,0 +1,58 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+{% if result %}
+<table class='datatable table table-striped'>
+    <thead> 
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Queue</th>
+        <th>Start</th>
+        <th>Running Time</th>
+        <th>State</th>
+        <th>Final Status</th>
+        <th>Tracking UI</th>
+        <th>Container Logs</th>
+        <th>Allocated Memory</th>
+        <th>Allocated VCores</th>
+        <th>Running Containers</th>
+        <th>Memory Seconds</th>
+        <th>VCore Seconds</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for el in result%}
+      <tr>
+        <td>{{el.id}}</td>
+        <td>{{el.user}}</td>
+        <td>{{el.name}}</td>
+        <td>{{el.applicationType}}</td>
+        <td>{{el.queue}}</td>
+        <td>{{el.startedTime}}</td>
+        <td>{{el.elapsedTime}}</td>
+        <td>{{el.state}}</td>
+        <td>{{el.finalStatus}}</td>
+        <td><a href="{{el.trackingUrl}}">History</a></td>
+        <td><a href="{{el.amContainerLogs}}">Logs</a></td>
+        <td>{{el.allocatedMB}}</td>
+        <td>{{el.allocatedVCores}}</td>
+        <td>{{el.runningContainers}}</td>
+        <td>{{el.memorySeconds}}</td>
+        <td>{{el.vcoreSeconds}}</td>
+        
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>
+{% else %}
+No Jobs are scheduled in the queue: {{queue}}
+
+{% endif %}
+
+{% endblock content %}

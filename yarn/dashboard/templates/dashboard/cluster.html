@@ -1,0 +1,73 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+
+<table>
+    <tbody>
+        <tr>
+            <td>Apps Submitted</td>
+            <td>Apps Pending</td>
+            <td>Apps Running</td>
+            <td>Apps Completed</td>
+            <td>Containers Running</td>
+            <td>Containers Reserved</td>
+            <td>Containers Pending</td>
+            <td>Total Memory</td>
+            <td>Memory Used</td>
+            <td>Memory Reserved</td>
+            <td>Available Memory</td>
+            <td>VCores Total</td>
+            <td>VCores Used</td>
+            <td>VCores Reserved</td>
+            <td>Total Nodes</td>
+            <td>Active Nodes</td>
+            <td>Decommissioned Nodes</td>
+            <td>Lost Nodes</td>
+            <td>Unhealthy Nodes</td>
+            <td>Rebooted Nodes</td>
+        </tr>
+        <tr>
+            <td>{{result.appsSubmitted}}</td>
+            <td>{{result.appsPending}}</td>
+            <td>{{result.appsRunning}}</td>
+            <td>{{result.appsCompleted}}</td>
+            <td>{{result.containersAllocated}}</td>
+            <td>{{result.containersReserved}}</td>
+            <td>{{result.containersPending}}</td>
+            <td>{{result.totalMB}}</td>
+            <td>{{result.allocatedMB}}</td>
+            <td>{{result.reservedMB}}</td>
+            <td>{{result.availableMB}}</td>
+            <td>{{result.totalVirtualCores}}</td>
+            <td>{{result.allocatedVirtualCores}}</td>
+            <td>{{result.reservedVirtualCores}}</td>
+            <td>{{result.totalNodes}}</td>
+            <td>{{result.activeNodes}}</td>
+            <td>{{result.decommissionedNodes}}</td>
+            <td>{{result.lostNodes}}</td>
+            <td>{{result.unhealthyNodes}}</td>
+            <td>{{result.rebootedNodes}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br>
+<br>
+<br>
+<br>
+
+<table>
+<tbody>
+    {% for key, value in info.items %}
+        <tr>
+            <td><b>{{key | capfirst}}:</b></td>
+            <td>{{value}}</td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+
+{% endblock content %}

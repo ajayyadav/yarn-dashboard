@@ -1,0 +1,46 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+<table class='datatable table table-striped'>
+    <thead> 
+      <tr>
+        <th>Rack</th>
+        <th>State</th>
+        <th>Address</th>
+        <th>HTTP Address</th>
+        <th>Last Health Update</th>
+        <th>Health Report</th>
+        <th>Containers</th>
+        <th>Memory Used</th>
+        <th>Memory Available</th>
+        <th>VCores Used</th>
+        <th>VCores Available</th>
+        <th>Version</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for el in result.node %}
+      <tr>
+        <td>{{el.rack}}</td>
+        <td>{{el.state}}</td>
+        <td>{{el.id}}</td>
+        <td>{{el.nodeHTTPAddress}}</td>
+        <td>{{el.lastHealthUpdate}}</td>
+        <td>{{el.healthReport}}</td>
+        <td>{{el.numContainers}}</td>
+        <td>{{el.usedMemoryMB}}</td>
+        <td>{{el.availMemoryMB}}</td>
+        <td>{{el.usedVirtualCores}}</td>
+        <td>{{el.availableVirtualCores}}</td>
+        <td>{{el.version}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>
+
+
+
+{% endblock content %}
