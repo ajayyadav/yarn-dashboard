@@ -18,10 +18,7 @@
         <th>Tracking UI</th>
         <th>Container Logs</th>
         <th>Allocated Memory</th>
-        <th>Allocated VCores</th>
         <th>Running Containers</th>
-        <th>Memory Seconds</th>
-        <th>VCore Seconds</th>
       </tr>
     </thead>
 
@@ -40,11 +37,7 @@
         <td><a href="{{el.trackingUrl}}">History</a></td>
         <td><a href="{{el.amContainerLogs}}">Logs</a></td>
         <td>{{el.allocatedMB}}</td>
-        <td>{{el.allocatedVCores}}</td>
         <td>{{el.runningContainers}}</td>
-        <td>{{el.memorySeconds}}</td>
-        <td>{{el.vcoreSeconds}}</td>
-        
       </tr>
       {% endfor %}
 
