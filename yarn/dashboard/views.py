@@ -32,7 +32,6 @@ def queues(request, template_name="dashboard/queues.html"):
     current_app = 'queues'
     res = requests.get(settings.API_URL+"cluster/scheduler", headers=headers).json()['scheduler']['schedulerInfo']
     result = process_children(res['queues'])
-    print result
     return render(request, template_name, locals())
 
 def jobs(request, template_name="dashboard/jobs.html"):
@@ -43,7 +42,36 @@ def jobs(request, template_name="dashboard/jobs.html"):
         result = result['app']
     else:
         result = []
+
+    for el in result:
+        el['job_id'] = el['id'].replace('application', 'job')
     return render(request, template_name, locals())
+
+
+def application_master_details(request, application_id, template_name="dashboard/application_master_details.html"):
+    current_app = 'jobs'
+    result = requests.get(settings.APPLICATION_API_URL.format(application_id), headers=headers).json()
+    return render(request, template_name, locals())
+
+def application_details(request, application_id, template_name="dashboard/application_details.html"):
+    # show all jobs in an application
+    current_app = 'jobs'
+    payload = request.GET.dict()
+    result = requests.get(settings.APPLICATION_API_URL.format(application_id=application_id), params=payload, headers=headers).json()
+    return render(request, template_name, locals())
+
+def job_details(request, application_id, job_id):
+    current_app = 'jobs'
+    payload = request.GET.dict()
+    url = settings.APPLICATION_API_URL.format(application_id=application_id)+"jobs/"+job_id
+    running = True
+    try:
+        result = requests.get(url, params=payload, headers=headers).json()['job']
+        return render(request, "dashboard/active_job_details.html", locals())
+    except ValueError:
+        running = False
+        result = requests.get(settings.HISTORY_API_URL+"jobs/"+job_id, params=payload, headers=headers).json()['job']
+    return render(request, "dashboard/completed_job_details.html", locals())
 
 
 

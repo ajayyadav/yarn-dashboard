@@ -1,9 +1,5 @@
 from django.conf.urls import patterns, include, url
 
-# urlpatterns = patterns('',
-#     # url(r'^process/create/$', CreateProcess.as_view(), name="create_process"),
-#     # url(r'^cluster/(?P<name>[0-9a-zA-Z@\-]+)/edit', UpdateCluster.as_view(), name="edit_cluster"),
-# )
 
 urlpatterns = patterns('dashboard.views',
     # url(r'^(?P<type>[a-z]+)/(?P<name>[0-9a-zA-Z@\-]+)/$', 'entity_details', name="entity_details"),
@@ -11,4 +7,7 @@ urlpatterns = patterns('dashboard.views',
     url(r'^nodes$', 'nodes', name="nodes"),
     url(r'^queues$', 'queues', name="queues"),
     url(r'^jobs', 'jobs', name="jobs"),
+    url(r'^apps/(?P<application_id>)/', 'application_master_details', name="am_details"),
+    url(r'^app/(?P<application_id>)/', 'application_details', name="application_details"),
+    url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/', 'job_details', name="job_details"),
 )

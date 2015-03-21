@@ -32,3 +32,6 @@ body{
   padding:10px;
 }
 
+.table-small>tbody>tr>td {
+	line-height: 0.2;
+}

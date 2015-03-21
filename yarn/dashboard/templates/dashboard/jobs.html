@@ -2,6 +2,17 @@
 
 {% block content %}
 
+<a href="" id="running"> RUNNING</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="" id="finished"> FINISHED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="" id="failed"> FAILED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="" id="killed"> KILLED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="" id="new"> NEW </a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="" id="new_saving"> NEW SAVING</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="" id="submitted"> SUBMITTED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="" id="accepted"> ACCEPTED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+
+<br><br><br><br>
+
 {% if result %}
 <table class='datatable table table-striped'>
     <thead> 
@@ -9,35 +20,42 @@
         <th>ID</th>
         <th>User</th>
         <th>Name</th>
-        <th>Type</th>
+        <!-- <th>Tracking UI</th> -->
         <th>Queue</th>
         <th>Start</th>
         <th>Running Time</th>
-        <th>State</th>
-        <th>Final Status</th>
-        <th>Tracking UI</th>
-        <th>Container Logs</th>
+        <th>Application Master Details</th>
         <th>Allocated Memory</th>
         <th>Running Containers</th>
+        <th>Final Status</th>
+        <th>Type</th>
       </tr>
     </thead>
 
     <tbody>
       {% for el in result%}
       <tr>
-        <td>{{el.id}}</td>
+        <!-- If it's MAPREDUCE type job then send it to job details else send it to application details -->
+        <td><a href="{% if el.applicationType == 'MAPREDUCE' %}
+                {% url 'job_details' el.id  el.job_id %}
+            {% else %} 
+                {% url 'application_details' el.id %}
+            {% endif %}">{{el.id}}</a>
+        </td>
         <td>{{el.user}}</td>
         <td>{{el.name}}</td>
-        <td>{{el.applicationType}}</td>
+        <!-- This link alters between Application Master and Job Details so skip it
+        <td><a href="{{el.trackingUrl}}">Job Details</a></td>
+        -->
         <td>{{el.queue}}</td>
         <td>{{el.startedTime}}</td>
         <td>{{el.elapsedTime}}</td>
-        <td>{{el.state}}</td>
-        <td>{{el.finalStatus}}</td>
-        <td><a href="{{el.trackingUrl}}">History</a></td>
-        <td><a href="{{el.amContainerLogs}}">Logs</a></td>
+        <!-- Change from container logs to Application Master Details -->
+        <td><a href="{{el.amContainerLogs}}">Application Master</a></td>
         <td>{{el.allocatedMB}}</td>
         <td>{{el.runningContainers}}</td>
+        <td>{{el.finalStatus}}</td>
+        <td>{{el.applicationType}}</td>
       </tr>
       {% endfor %}
 
@@ -49,3 +67,7 @@ No Jobs are scheduled in the queue: {{queue}}
 {% endif %}
 
 {% endblock content %}
+
+{% block child_js %}
+
+{% endblock child_js %}

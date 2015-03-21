@@ -1,0 +1,31 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %} Application Details - {{result.id}} {% endblock title %}
+
+{% block content %}
+
+{% if result %}
+<table class='datatable table table-striped'>
+    <thead> 
+      <tr>
+        <th>ID</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for el in result%}
+      <tr>
+        <td>{{el.id}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>
+
+{% else %}
+
+Invalid Application Master ID!
+
+{% endif %}
+
+{% endblock content %}

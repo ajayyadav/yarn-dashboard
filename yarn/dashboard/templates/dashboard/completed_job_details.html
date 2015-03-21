@@ -1,0 +1,82 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %} Application Master - {{result.id}} {% endblock title %}
+
+{% block content %}
+<!--{{result}} -->
+
+{% if result %}
+<table class="table table-striped table-small">
+  <tbody>
+    <tr>  <td> <b> Job Name:</b>  </td>       <td>{{result.name}}</td>    </tr>
+    <tr>  <td> <b> User Name:</b> </td>        <td>{{result.user}}</td>   </tr>
+    <tr>  <td> <b> Queue:</b> </td>        <td>{{result.queue}}</td>   </tr>
+    <tr>  <td> <b> State:</b> </td>        <td>{{result.state}}</td>   </tr>
+    <tr>  <td> <b> Uberized:</b>  </td>       <td>{{result.uberized}}</td>    </tr>
+    <tr>  <td> <b> Submitted:</b> </td>        <td>{{result.submitTime}}</td>   </tr>
+    <tr>  <td> <b> Started:</b> </td>        <td>{{result.startTime}}</td>   </tr>
+    <tr>  <td> <b> Finished:</b>  </td>       <td>{{result.finishTime}}</td>    </tr>
+    <tr>  <td> <b> Elapsed:</b> </td>        <td>{{result.finishTime}} - {{result.startTime}}</td>   </tr>
+    <tr>  <td> <b> Diagnostics:</b> </td>        <td>{{result.diagnostics}}</td>   </tr>
+    <tr>  <td> <b> Average Map Time:</b>  </td>       <td>{{result.avgMapTime}}</td>    </tr>
+    <tr>  <td> <b> Average Shuffle Time:</b>  </td>       <td>{{result.avgShuffleTime}}</td>    </tr>
+    <tr>  <td> <b> Average Merge Time:</b>  </td>       <td>{{result.avgMergeTime}}</td>    </tr>
+    <tr>  <td> <b> Average Reduce Time:</b> </td>        <td>{{result.avgReduceTime}}</td>   </tr>
+  </tbody>
+</table>
+
+
+  <table class="table table-striped table-small">
+    <thead>
+      <tr>
+        <th>Task Type</th>
+        <th>Total</th>
+        <th>Complete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Map</td>
+        <td>{{result.mapsTotal}}</td>
+        <td>{{result.mapsCompleted}}</td>
+      </tr>
+
+      <tr>
+        <td>Reduce</td>
+        <td>{{result.reducesTotal}}</td>
+        <td>{{result.reducesCompleted}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-striped table-small">
+    <thead>
+      <tr>
+        <th>Attempt Type</th>
+        <th>Failed</th>
+        <th>Killed</th>
+        <th>Successful</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Map</td>
+        <td>{{result.failedMapAttempts}}</td>
+        <td>{{result.killedMapAttempts}}</td>
+        <td>{{result.successfulMapAttempts}}</td>
+      </tr>
+      <tr>
+        <td>Reduce</td>
+        <td>{{result.failedReduceAttempts}}</td>
+        <td>{{result.killedReduceAttempts}}</td>
+        <td>{{result.successfulReduceAttempts}}</td>
+      </tr>
+    </tbody>
+  </table>
+{% else %}
+
+No jobs found!
+
+{% endif %}
+
+{% endblock content %}
