@@ -2,14 +2,14 @@
 
 {% block content %}
 
-<a href="" id="running"> RUNNING</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="" id="finished"> FINISHED</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="" id="failed"> FAILED</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="" id="killed"> KILLED</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="" id="new"> NEW </a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="" id="new_saving"> NEW SAVING</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="" id="submitted"> SUBMITTED</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="" id="accepted"> ACCEPTED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{%url 'jobs' %}?states=RUNNING" id="running"> RUNNING</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{%url 'jobs' %}?states=FINISHED" id="finished"> FINISHED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{%url 'jobs' %}?states=FAILED" id="failed"> FAILED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{%url 'jobs' %}?states=KILLED" id="killed"> KILLED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{%url 'jobs' %}?states=NEW" id="new"> NEW </a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{%url 'jobs' %}?states=NEW_SAVING" id="new_saving"> NEW SAVING</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{%url 'jobs' %}?states=SUBMITTED" id="submitted"> SUBMITTED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{%url 'jobs' %}?states=ACCEPTED" id="accepted"> ACCEPTED</a> &nbsp;&nbsp;&nbsp;&nbsp;
 
 <br><br><br><br>
 
@@ -62,7 +62,7 @@
     </tbody>
 </table>
 {% else %}
-No Jobs are scheduled in the queue: {{queue}}
+No Jobs available matching your criteria!
 
 {% endif %}
 
