@@ -26,7 +26,7 @@
         <td>{{el.state}}</td>
         <td><a href="{{el.nodeHTTPAddress}}">{{el.nodeHTTPAddress}}</a></td>
         <td>{{el.lastHealthUpdate}}</td>
-        <td>{{el.healthReport}}</td>
+        <td title="{{el.healthReport}}">{{el.healthReport|truncatechars:20}}</td>
         <td>{{el.numContainers}}</td>
         <td>{{el.usedMemoryMB}}</td>
         <td>{{el.availMemoryMB}}</td>

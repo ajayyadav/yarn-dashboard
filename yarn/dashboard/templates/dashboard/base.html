@@ -67,8 +67,9 @@
     $('#{{current_tab}}').removeClass('btn-default').addClass('btn-primary');
     $('#{{current_app}}').addClass('active');
 
-    $('.datatable').dataTable({
-      "pageLength": 20
+    /* Init DataTables */
+    var oTable = $('.datatable').dataTable({
+      "pageLength": 20,
     });
 
   });
