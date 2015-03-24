@@ -7,17 +7,17 @@
     <thead> 
       <tr>
         <th>Queue Name</th>
-        <th>State</th>
         <th>Load</th>
+        <th>Containers being used</th>
         <th>Absolute Capacity %</th>
         <th>Absolute Max Capacity %</th>
         <th>Absolute Used Capacity %</th>
-        <th>Containers being used</th>
         <th>Resources Used.VCores</th>
         <th>Resources Used.Memory</th>
         <th>Number of Applications</th>
         <th>Num Active Applications</th>
         <th>Num Pending Applications</th>
+        <th>State</th>
       </tr>
     </thead>
 
@@ -25,17 +25,17 @@
       {% for el in result%}
       <tr>
         <td><a href="{% url 'jobs' %}?queue={{el.queueName}}">{{el.queueName}}</a></td>
-        <td>{{el.state}}</td>
         <td><font color="{% if el.load > 100 %}red{% else %}green{% endif %}"> {{el.load}} </font></td>
+        <td>{{el.resourcesUsed.vCores}}</td>
         <td>{{el.absoluteCapacity}}</td>
         <td>{{el.absoluteMaxCapacity}}</td>
         <td>{{el.absoluteUsedCapacity}}</td>
         <td>{{el.numContainers}}</td>
-        <td>{{el.resourcesUsed.vCores}}</td>
         <td>{{el.resourcesUsed.memory}}</td>
         <td>{{el.numApplications}}</td>
         <td>{{el.numActiveApplications}}</td>
         <td>{{el.numPendingApplications}}</td>
+        <td>{{el.state}}</td>
       </tr>
       {% endfor %}
     </tbody>
