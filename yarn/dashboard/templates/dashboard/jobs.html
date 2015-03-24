@@ -20,7 +20,6 @@
         <th>ID</th>
         <th>User</th>
         <th>Name</th>
-        <!-- <th>Tracking UI</th> -->
         <th>Queue</th>
         <th>Start</th>
         <th>Running Time</th>
@@ -50,8 +49,7 @@
         <td>{{el.queue}}</td>
         <td>{{el.startedTime}}</td>
         <td>{{el.elapsedTime}}</td>
-        <!-- Change from container logs to Application Master Details -->
-        <td><a href="{{el.amContainerLogs}}">Application Master</a></td>
+        <td><a href="{{el.amContainerLogs}}">Container Logs</a></td>
         <td>{{el.allocatedMB}}</td>
         <td>{{el.runningContainers}}</td>
         <td>{{el.finalStatus}}</td>

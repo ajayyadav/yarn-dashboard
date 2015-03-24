@@ -8,9 +8,10 @@
       <tr>
         <th>Queue Name</th>
         <th>State</th>
-        <th>Absolute Capacity</th>
-        <th>Absolute Max Capacity</th>
-        <th>Absolute Used Capacity</th>
+        <th>Load</th>
+        <th>Absolute Capacity %</th>
+        <th>Absolute Max Capacity %</th>
+        <th>Absolute Used Capacity %</th>
         <th>Containers being used</th>
         <th>Resources Used.VCores</th>
         <th>Resources Used.Memory</th>
@@ -25,6 +26,7 @@
       <tr>
         <td><a href="{% url 'jobs' %}?queue={{el.queueName}}">{{el.queueName}}</a></td>
         <td>{{el.state}}</td>
+        <td><font color="{% if el.load > 100 %}red{% else %}green{% endif %}"> {{el.load}} </font></td>
         <td>{{el.absoluteCapacity}}</td>
         <td>{{el.absoluteMaxCapacity}}</td>
         <td>{{el.absoluteUsedCapacity}}</td>

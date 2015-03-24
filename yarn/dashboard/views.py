@@ -32,6 +32,11 @@ def queues(request, template_name="dashboard/queues.html"):
     current_app = 'queues'
     res = requests.get(settings.API_URL+"cluster/scheduler", headers=headers).json()['scheduler']['schedulerInfo']
     result = process_children(res['queues'])
+    for el in result:
+        el['absoluteCapacity'] = round(el['absoluteCapacity'], 2)
+        el['absoluteUsedCapacity'] = round(el['absoluteUsedCapacity'], 2)
+        el['load'] = round(el['absoluteUsedCapacity'] / el['absoluteCapacity'] * 100 , 2)  
+        el['absoluteMaxCapacity'] = round(el['absoluteMaxCapacity'], 2)
     return render(request, template_name, locals())
 
 def jobs(request, template_name="dashboard/jobs.html"):
