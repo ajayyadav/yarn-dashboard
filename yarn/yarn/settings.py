@@ -87,8 +87,13 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-API_SERVER_URL = ""
+API_SERVER_URL = "http://glgm1003.grid.uh1.inmobi.com:8088"
 API_URL =  API_SERVER_URL + "/ws/v1/"
+
+#URL FOR APPLICATION SERVER
+APPLICATION_API_URL="http://glgm1003.grid.uh1.inmobi.com:8088/proxy/{application_id}/ws/v1/mapreduce/"
+
+HISTORY_API_URL="http://glgm1003.grid.uh1.inmobi.com:19888/ws/v1/history/mapreduce/"
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 "django.core.context_processors.debug",

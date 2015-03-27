@@ -1,0 +1,43 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+{% if result %}
+<table class='datatable table table-striped'>
+    <thead> 
+      <tr>
+        <th>Task</th>
+        <th>State</th>
+        <th>Type</th>
+        <th>Start Time</th>
+        <th>Elapsed Time</th>
+        <th>Progress</th>
+        <th>Successful Attempt</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for el in result%}
+      <tr>
+        <td>{{el.id}}</td>
+        <td>{{el.state}}</td>
+        <td>{{el.type}}</td>
+        <td>{{el.startTime}}</td>
+        <td>{{el.elpasedTime}}</td>
+        <td>{{el.progress}}</td>
+        <td>{{el.successfulAttempt}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>
+{% else %}
+No tasks available matching your criteria!
+
+{% endif %}
+
+{% endblock content %}
+
+{% block child_js %}
+
+{% endblock child_js %}

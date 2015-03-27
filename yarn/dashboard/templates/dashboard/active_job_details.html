@@ -31,7 +31,7 @@
     </thead>
     <tbody>
       <tr>
-        <td>Map</td>
+        <td><a href="{% url 'tasks_list' application_id job_id %}?type=m"> Map</a></td>
         <td>{{result.mapsTotal}}</td>
         <td>{{result.mapsCompleted}}</td>
         <td>{% if result.mapsRunning %}{{result.mapsRunning}}{% else %} 0 {% endif %}</td>
@@ -40,7 +40,7 @@
       </tr>
 
       <tr>
-        <td>Reduce</td>
+        <td><a href="{% url 'tasks_list' application_id job_id %}?type=r">Reduce</a></td>
         <td>{{result.reducesTotal}}</td>
         <td>{{result.reducesCompleted}}</td>
         <td>{{result.reducesRunning}}</td>
