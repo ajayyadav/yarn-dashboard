@@ -87,13 +87,14 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-API_SERVER_URL = "http://glgm1003.grid.uh1.inmobi.com:8088"
+#Fill these urls with your own by creating a file lsettings.py along side settings.py
+API_SERVER_URL = "http://abc.com:8088"
 API_URL =  API_SERVER_URL + "/ws/v1/"
 
-#URL FOR APPLICATION SERVER
-APPLICATION_API_URL="http://glgm1003.grid.uh1.inmobi.com:8088/proxy/{application_id}/ws/v1/mapreduce/"
+PROXY_SERVER_URL = "http://abc.com:8088"
+APPLICATION_API_URL = "http://abc.com:8088/proxy/{application_id}/ws/v1/mapreduce/"
 
-HISTORY_API_URL="http://glgm1003.grid.uh1.inmobi.com:19888/ws/v1/history/mapreduce/"
+HISTORY_API_URL = "http://abc.com:19888/ws/v1/history/mapreduce/"
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 "django.core.context_processors.debug",
@@ -105,3 +106,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 "context_processor.global_settings"
 )
 
+try:
+    from local_settings import *
+except ImportError:
+    pass
