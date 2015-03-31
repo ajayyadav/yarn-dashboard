@@ -1,6 +1,9 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.conf import settings
 import requests
+import collections
+
 
 headers = {'Accept': 'application/json'}
 # Create your views here.
@@ -54,15 +57,29 @@ def jobs(request, template_name="dashboard/jobs.html"):
 
 
 def application_master_details(request, application_id, template_name="dashboard/application_master_details.html"):
-    current_app = 'jobs'
-    result = requests.get(settings.APPLICATION_API_URL.format(application_id), headers=headers).json()
+    
+    url = settings.APPLICATION_API_URL.format(application_id=application_id) + "info/"
+    print url 
+    am_details = requests.get(url, headers=headers).json()['info']
+    am_details = collections.OrderedDict(sorted(am_details.items()))
+    am_details['Application Jobs'] = reverse('dashboard.views.application_jobs', args=[application_id])
     return render(request, template_name, locals())
 
+
+def application_jobs(request, application_id, template_name="dashboard/application_jobs.html"):
+    current_app = 'jobs'
+    url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/"
+    jobs = requests.get(url, headers=headers).json()['jobs']['job']
+    return render(request, template_name, locals())
+
+
+# What is this used for???
 def application_details(request, application_id, template_name="dashboard/application_details.html"):
     # show all jobs in an application
     current_app = 'jobs'
     payload = request.GET.dict()
-    result = requests.get(settings.APPLICATION_API_URL.format(application_id=application_id), params=payload, headers=headers).json()
+    result = requests.get(settings.APPLICATION_API_URL.format(application_id=application_id), params=payload, headers=headers)
+    result = result.json()['info']
     return render(request, template_name, locals())
 
 def job_details(request, application_id, job_id):

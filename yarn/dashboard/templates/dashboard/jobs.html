@@ -17,13 +17,14 @@
 <table class='datatable table table-striped'>
     <thead> 
       <tr>
-        <th>ID</th>
+        <th>Job Details</th>
         <th>User</th>
         <th>Name</th>
         <th>Queue</th>
         <th>Start</th>
         <th>Running Time</th>
         <th>Application Master Details</th>
+        <th>Container Logs</th>
         <th>Allocated Memory</th>
         <th>Running Containers</th>
         <th>Final Status</th>
@@ -35,11 +36,11 @@
       {% for el in result%}
       <tr>
         <!-- If it's MAPREDUCE type job then send it to job details else send it to application details -->
-        <td><a href="{% if el.applicationType == 'MAPREDUCE' %}
-                {% url 'job_details' el.id  el.job_id %}
+        <td>{% if el.applicationType == 'MAPREDUCE' %}
+                <a href="{% url 'job_details' el.id  el.job_id %}">{{el.id}}</a>
             {% else %} 
-                {% url 'application_details' el.id %}
-            {% endif %}">{{el.id}}</a>
+                {{el.id}}
+            {% endif %}
         </td>
         <td>{{el.user}}</td>
         <td>{{el.name}}</td>
@@ -49,6 +50,7 @@
         <td>{{el.queue}}</td>
         <td>{{el.startedTime}}</td>
         <td>{{el.elapsedTime}}</td>
+        <td><a href="{% url 'application_master_details' el.id %}">AM Details</a></td>
         <td><a href="{{el.amContainerLogs}}">Container Logs</a></td>
         <td>{{el.allocatedMB}}</td>
         <td>{{el.runningContainers}}</td>
