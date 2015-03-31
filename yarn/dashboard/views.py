@@ -69,7 +69,7 @@ def application_master_details(request, application_id, template_name="dashboard
 def application_jobs(request, application_id, template_name="dashboard/application_jobs.html"):
     current_app = 'jobs'
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/"
-    jobs = requests.get(url, headers=headers).json()['jobs']['job']
+    result = requests.get(url, headers=headers).json()['jobs']['job']
     return render(request, template_name, locals())
 
 

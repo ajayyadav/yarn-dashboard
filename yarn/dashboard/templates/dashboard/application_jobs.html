@@ -1,27 +1,48 @@
 {% extends 'dashboard/base.html' %}
 
-{% block title %} Application Master - {{result.id}} {% endblock title %}
-
-
-
 {% block content %}
 
-Attempts details
 
+{% if result %}
+<table class='datatable table table-striped'>
+    <thead> 
+      <tr>
+        <th>Job ID</th>
+        <th>Name</th>
+        <th>State</th>
+        <th>Map Progress</th>
+        <th>Maps Total</th>
+        <th>Maps Completed</th>
+        <th>Reduce Progress</th>
+        <th>Reduce Total</th>
+        <th>Reduce Completed</th>
+      </tr>
+    </thead>
 
+    <tbody>
+      {% for el in result%}
+      <tr>
+        <td><a href="{% url 'job_details' application_id el.id %}">{{el.id}}</a></td>
+        <td>{{el.name}}</td>
+        <td>{{el.state}}</td>
+        <td>{{el.mapsProgress}}</td>
+        <td>{{el.mapsTotal}}</td>
+        <td>{{el.mapsCompleted}}</td>
+        <td>{{el.reduceProgress}}</td>
+        <td>{{el.reduceTotal}}</td>
+        <td>{{el.reduceCompleted}}</td>
+      </tr>
+      {% endfor %}
 
-{% if am_details %}
-
-  {% for k, v in am_details.items %}
-  <dl class="dl-horizontal">
-    <dt>{{k|capfirst}}</dt>
-    <dd>{% if k == 'Application Jobs' %}<a href="{{v}}">Application Jobs</a>{% else %} {{v}} {% endif %}</dd>
-  </dl>
-  {% endfor %}
+    </tbody>
+</table>
 {% else %}
-
-Invalid Application Master ID!
+No Jobs available matching your criteria!
 
 {% endif %}
 
 {% endblock content %}
+
+{% block child_js %}
+
+{% endblock child_js %}
