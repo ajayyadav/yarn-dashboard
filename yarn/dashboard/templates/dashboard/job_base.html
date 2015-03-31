@@ -6,11 +6,11 @@
 
     {% block header %}
         <div class="btn-group" role="group" aria-label="">
-          <a class="btn btn-default" href="{% url 'job_details' application_id job_id %}"> Overview</a>
-          <a class="btn btn-default" href="{% url 'job_configuration' application_id job_id %}"> Configuration</a>
-          <a class="btn btn-default" href="{% url 'job_counters' application_id job_id %}"> Counters</a>
-          <a class="btn btn-default" href="{% url 'job_tasks' application_id job_id %}"> Map Tasks</a>
-          <a class="btn btn-default" href="{% url 'job_tasks' application_id job_id %}"> Reduce Tasks</a>
+          <a id="overview" class="btn btn-default" href="{% url 'job_details' application_id job_id %}"> Overview</a>
+          <a id="conf" class="btn btn-default" href="{% url 'job_configuration' application_id job_id %}"> Configuration</a>
+          <a id="counters" class="btn btn-default" href="{% url 'job_counters' application_id job_id %}"> Counters</a>
+          <a id="map-tasks" class="btn btn-default" href="{% url 'job_tasks' application_id job_id %}"> Map Tasks</a>
+          <a id="reduce-tasks" class="btn btn-default" href="{% url 'job_tasks' application_id job_id %}"> Reduce Tasks</a>
         </div>
         <br><br><br>
 
@@ -21,3 +21,9 @@
 
 
 {% endblock content %}
+
+{% block child_js %}
+<script type="text/javascript">
+$
+</script>
+{% endblock child_js %}

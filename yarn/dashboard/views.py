@@ -86,6 +86,7 @@ def application_details(request, application_id, template_name="dashboard/applic
 
 def job_details(request, application_id, job_id):
     current_app = 'jobs'
+    current_nav = 'overview'
     payload = request.GET.dict()
     url = settings.APPLICATION_API_URL.format(application_id=application_id)+"jobs/"+job_id
     running = True
@@ -100,6 +101,7 @@ def job_details(request, application_id, job_id):
 
 def job_configuration(request, application_id, job_id, template_name="dashboard/job_configuration.html"):
     current_app = 'jobs'
+    current_nav = 'conf'
     payload  = request.GET.dict()
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/conf".format(job_id)
     result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
@@ -108,6 +110,7 @@ def job_configuration(request, application_id, job_id, template_name="dashboard/
 
 def job_counters(request, application_id, job_id, template_name="dashboard/job_counters.html"):
     current_app = 'jobs'
+    current_nav = 'counters'
     payload  = request.GET.dict()
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/counters".format(job_id)
     result = requests.get(url, params=payload, headers=headers).json()['jobCounters']
@@ -118,6 +121,7 @@ def job_counters(request, application_id, job_id, template_name="dashboard/job_c
 
 def job_tasks(request, application_id, job_id, template_name="dashboard/job_tasks.html"):
     current_app = 'jobs'
+    current_nav = 'tasks'
     payload  = request.GET.dict()
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/tasks".format(job_id)
     result = requests.get(url, params=payload, headers=headers).json()['tasks']['task']
