@@ -96,6 +96,33 @@ def job_details(request, application_id, job_id):
     return render(request, "dashboard/completed_job_details.html", locals())
 
 
+def job_configuration(request, application_id, job_id, template_name="dashboard/job_configuration.html"):
+    current_app = 'jobs'
+    payload  = request.GET.dict()
+    url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/conf".format(job_id)
+    result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
+    return render(request, template_name, locals())
+
+
+def job_counters(request, application_id, job_id, template_name="dashboard/job_counters.html"):
+    current_app = 'jobs'
+    payload  = request.GET.dict()
+    url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/counters".format(job_id)
+    result = requests.get(url, params=payload, headers=headers).json()
+
+    # result = collections.OrderedDict(sorted(result.items))
+    return render(request, template_name, locals())
+
+
+def job_tasks(request, application_id, job_id, template_name="dashboard/job_tasks.html"):
+    current_app = 'jobs'
+    payload  = request.GET.dict()
+    url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/counters".format(job_id)
+    result = requests.get(url, params=payload, headers=headers).json()
+    return render(request, template_name, locals())
+
+
+
 def tasks_list(request, application_id, job_id, template_name="dashboard/tasks_list.html"):
     current_app = 'jobs'
     payload = request.GET.dict()

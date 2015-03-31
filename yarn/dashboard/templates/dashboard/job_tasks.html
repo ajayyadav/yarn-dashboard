@@ -1,0 +1,46 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+
+{% if result %}
+<table class='datatable table table-striped'>
+    <thead> 
+      <tr>
+        <th>Name</th>
+        <th>State</th>
+        <th>Map Progress</th>
+        <th>Maps Total</th>
+        <th>Maps Completed</th>
+        <th>Reduce Progress</th>
+        <th>Reduce Total</th>
+        <th>Reduce Completed</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for el in result%}
+      <tr>
+        <td>{{el.name}}</td>
+        <td>{{el.state}}</td>
+        <td>{{el.mapsProgress}}</td>
+        <td>{{el.mapsTotal}}</td>
+        <td>{{el.mapsCompleted}}</td>
+        <td>{{el.reduceProgress}}</td>
+        <td>{{el.reduceTotal}}</td>
+        <td>{{el.reduceCompleted}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>
+{% else %}
+No Jobs available matching your criteria!
+
+{% endif %}
+
+{% endblock content %}
+
+{% block child_js %}
+
+{% endblock child_js %}

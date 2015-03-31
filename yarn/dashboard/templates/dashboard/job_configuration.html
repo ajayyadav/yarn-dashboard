@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+{% if result %}
+<table class='datatable table table-striped'>
+    <thead> 
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Source</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for el in result%}
+      <tr>
+        <td>{{el.name}}</td>
+        <td>{{el.value}}</td>
+        <td>{{el.source}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>
+{% else %}
+No Jobs available matching your criteria!
+
+{% endif %}
+
+{% endblock content %}
+
+{% block child_js %}
+
+{% endblock child_js %}
