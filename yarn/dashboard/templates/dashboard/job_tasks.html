@@ -2,33 +2,34 @@
 
 {% block content %}
 
-
 {% if result %}
 <table class='datatable table table-striped'>
     <thead> 
       <tr>
-        <th>Name</th>
+        <th>Task Id</th>
+        <th>Finish Time</th>
+        <th>Successful Attempt</th>
+        <th>Elapsed Time</th>
         <th>State</th>
-        <th>Map Progress</th>
-        <th>Maps Total</th>
-        <th>Maps Completed</th>
-        <th>Reduce Progress</th>
-        <th>Reduce Total</th>
-        <th>Reduce Completed</th>
+        <th>Status</th>
+        <th>Start Time</th>
+        <th>Progress</th>
+        <th>Type</th>
       </tr>
     </thead>
 
     <tbody>
       {% for el in result%}
       <tr>
-        <td>{{el.name}}</td>
+        <td>{{el.id}}</td>
+        <td>{{el.finishTime}}</td>
+        <td>{{el.successfulAttempt}}</td>
+        <td>{{el.elapsedTime}}</td>
         <td>{{el.state}}</td>
-        <td>{{el.mapsProgress}}</td>
-        <td>{{el.mapsTotal}}</td>
-        <td>{{el.mapsCompleted}}</td>
-        <td>{{el.reduceProgress}}</td>
-        <td>{{el.reduceTotal}}</td>
-        <td>{{el.reduceCompleted}}</td>
+        <td>{{el.status}}</td>
+        <td>{{el.startTime}}</td>
+        <td>{{el.progress}}</td>
+        <td>{{el.type}}</td>
       </tr>
       {% endfor %}
 
