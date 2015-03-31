@@ -1,6 +1,6 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/job_base.html' %}
 
-{% block content %}
+{% block body %}
 
 {% if result %}
 <table class='datatable table table-striped'>
@@ -28,8 +28,4 @@ No Jobs available matching your criteria!
 
 {% endif %}
 
-{% endblock content %}
-
-{% block child_js %}
-
-{% endblock child_js %}
+{% endblock body %}

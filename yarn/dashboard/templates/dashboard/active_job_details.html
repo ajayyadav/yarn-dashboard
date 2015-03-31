@@ -1,16 +1,10 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/job_base.html' %}
 
 {% block title %} Application Master - {{result.id}} {% endblock title %}
 
-{% block content %}
+{% block body %}
 <!--{{result}} -->
-<a href="{% url 'job_details' application_id job_id %}"> Overview</a>
-<a href="{% url 'job_configuration' application_id job_id %}"> Configuration</a>
-<a href="{% url 'job_counters' application_id job_id %}"> Counters</a>
-<a href="{% url 'job_tasks' application_id job_id %}"> Map Tasks</a>
-<a href="{% url 'job_tasks' application_id job_id %}"> Reduce Tasks</a>
 
-<br><br><br><br>
 
 {% if result %}
 <table class="table table-striped table-small">
@@ -93,4 +87,4 @@ No jobs found!
 
 {% endif %}
 
-{% endblock content %}
+{% endblock body %}
