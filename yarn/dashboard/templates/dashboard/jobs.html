@@ -2,14 +2,31 @@
 
 {% block content %}
 
-<a href="{%url 'jobs' %}?states=RUNNING" id="running"> RUNNING</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="{%url 'jobs' %}?states=FINISHED" id="finished"> FINISHED</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="{%url 'jobs' %}?states=FAILED" id="failed"> FAILED</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="{%url 'jobs' %}?states=KILLED" id="killed"> KILLED</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="{%url 'jobs' %}?states=NEW" id="new"> NEW </a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="{%url 'jobs' %}?states=NEW_SAVING" id="new_saving"> NEW SAVING</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="{%url 'jobs' %}?states=SUBMITTED" id="submitted"> SUBMITTED</a> &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="{%url 'jobs' %}?states=ACCEPTED" id="accepted"> ACCEPTED</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<form role="form" class="form-inline" id="filter-form">
+    <div class="form-group">
+        <label class="sr-only" for="states">State</label>
+        <select id="states" class="form-control">
+            <option value="">All</option>
+            {% for el in states %}
+                <option value="{{el}}" {% if payload.states = el %} selected {% endif %}>{{el}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label class="sr-only" for="queue">State</label>
+        <input name="queue" id="queue" type="text" class="form-control" placeholder="Enter queue name" value="{{payload.queue}}">
+    </div>    
+        
+
+    <div class="form-group">
+        <label class="sr-only" for="queue">State</label>
+        <input name="user" id="user" type="text" placeholder="Enter user" value="{{payload.user}}" class="form-control">
+    </div>    
+
+    <button type="submit" class="btn btn-primary">GO</button>
+
+</form>
 
 <br><br><br><br>
 
@@ -69,5 +86,16 @@ No Jobs available matching your criteria!
 {% endblock content %}
 
 {% block child_js %}
+<script type="text/javascript">
+$('#filter-form').submit( function(event) {
+    var params = {};
+    params["states"] = $('#states').val();
+    params["queue"] = $('#queue').val();
+    params["user"] = $('#user').val();
+    var newUrl = "?" + $.param(params);
+    window.location.href= newUrl;
+    event.preventDefault();
+});
 
+</script>
 {% endblock child_js %}

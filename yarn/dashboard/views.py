@@ -45,6 +45,8 @@ def queues(request, template_name="dashboard/queues.html"):
 def jobs(request, template_name="dashboard/jobs.html"):
     current_app = 'jobs'
     payload = request.GET.dict()
+    states = ["RUNNING", "FINISHED", "FAILED", "KILLED", "NEW", "NEW_SAVING", "SUBMITTED", "ACCEPTED"]
+    
     result = requests.get(settings.API_URL+"cluster/apps", params=payload, headers=headers).json()['apps']
     if result:
         result = result['app']
