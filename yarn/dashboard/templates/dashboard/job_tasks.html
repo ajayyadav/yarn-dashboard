@@ -41,3 +41,28 @@ No Jobs available matching your criteria!
 {% endif %}
 
 {% endblock body %}
+
+{% block datatable %}
+<script type="text/javascript">
+$(function(){
+      /* Init DataTables */
+    var oTable = $('.datatable').dataTable({
+      "pageLength": 20,
+      "columnDefs": [
+          {
+              "render": function ( data, type, row ) {
+                  return moment.duration(7601137, "miliseconds").humanize();
+              },
+              "targets": [3]
+          },
+          {
+              "render": function ( data, type, row ) {
+                  return moment(Number(data)).format("lll");
+              },
+              "targets": [6]
+          },
+      ]
+    });
+});
+</script>
+{% endblock datatable %}

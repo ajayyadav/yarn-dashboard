@@ -60,6 +60,7 @@
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="//cdn.datatables.net/1.10.1/js/jquery.dataTables.min.js"></script>
   <script src="//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
   <script src="{{STATIC_URL}}js/base.js"></script>
   <script type="text/javascript">
 
@@ -68,14 +69,22 @@
     $('#{{current_app}}').addClass('active');
     $('#{{current_nav}}').addClass('active');
 
-    /* Init DataTables */
-    var oTable = $('.datatable').dataTable({
-      "pageLength": 20,
-    });
-
   });
   </script>
 
+  {% block datatable %}
+  <script type="text/javascript">
+    $(function(){
+          /* Init DataTables */
+      var oTable = $('.datatable').dataTable({
+        "pageLength": 20,
+      });
+
+
+    });
+  </script>
+
+  {% endblock datatable %}
   {% block child_scripts %} {% endblock child_scripts %}
   {% block child_js %} {% endblock child_js %}
 </body>
