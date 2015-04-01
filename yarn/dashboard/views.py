@@ -51,6 +51,7 @@ def jobs(request, template_name="dashboard/jobs.html"):
     if result:
         result = result['app']
     else:
+        #for what all status should we send the request here??
         result = []
 
     for el in result:
@@ -71,7 +72,11 @@ def application_master_details(request, application_id, template_name="dashboard
 def application_jobs(request, application_id, template_name="dashboard/application_jobs.html"):
     current_app = 'jobs'
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/"
-    result = requests.get(url, headers=headers).json()['jobs']['job']
+    try:
+        result = requests.get(url, headers=headers).json()['jobs']['job']
+    except (TypeError, KeyError) as e:
+        url = settings.HISTORY_API_URL.format(application_id=application_id) + "jobs/"
+        result = requests.get(url, headers=headers).json()['jobs']['job']
     return render(request, template_name, locals())
 
 
@@ -106,7 +111,12 @@ def job_configuration(request, application_id, job_id, template_name="dashboard/
     current_nav = 'conf'
     payload  = request.GET.dict()
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/conf".format(job_id)
-    result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
+    try:
+        result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
+    except (TypeError, KeyError) as e:
+        url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/conf".format(job_id)
+        result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
+        
     return render(request, template_name, locals())
 
 
@@ -115,8 +125,12 @@ def job_counters(request, application_id, job_id, template_name="dashboard/job_c
     current_nav = 'counters'
     payload  = request.GET.dict()
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/counters".format(job_id)
-    result = requests.get(url, params=payload, headers=headers).json()['jobCounters']
-
+    try:
+        result = requests.get(url, params=payload, headers=headers).json()['jobCounters']
+    except (TypeError, KeyError) as e:
+        url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/counters".format(job_id)
+        result = requests.get(url, params=payload, headers=headers).json()['jobCounters']
+        
     # result = collections.OrderedDict(sorted(result.items))
     return render(request, template_name, locals())
 
@@ -134,9 +148,10 @@ def job_tasks(request, application_id, job_id, template_name="dashboard/job_task
     response = requests.get(url, params=payload, headers=headers).json()
     try:
         result = response['tasks']['task']
-    except TypeError, ValueError:
-        result = None
-        
+    except (TypeError, KeyError) as e:
+        url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/tasks".format(job_id)
+        result = requests.get(url, params=payload, headers=headers).json()['tasks']['task']
+            
     return render(request, template_name, locals())
 
 
