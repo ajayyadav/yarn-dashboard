@@ -51,7 +51,7 @@ $(function(){
       "columnDefs": [
           {
               "render": function ( data, type, row ) {
-                  return moment.duration(7601137, "miliseconds").humanize();
+                  return moment.duration(Number(data), "miliseconds").humanize();
               },
               "targets": [3]
           },
