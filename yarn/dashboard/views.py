@@ -132,8 +132,49 @@ def job_tasks(request, application_id, job_id, template_name="dashboard/job_task
 
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/tasks".format(job_id)
     response = requests.get(url, params=payload, headers=headers).json()
-    result = response['tasks']['task']
+    try:
+        result = response['tasks']['task']
+    except TypeError, ValueError:
+        result = None
+        
     return render(request, template_name, locals())
 
 
+# task_details is just showing all attempts in the task(task_attempts)
+def task_details(request, application_id, job_id, task_id, template_name="dashboard/task_details.html"):
+    current_app = 'jobs'
+    current_nav = 'overview'
+    payload  = request.GET.dict()
+    
 
+    url_suffix = "jobs/{}/tasks/{}/attempts".format(job_id, task_id)
+    try:
+        url = settings.HISTORY_API_URL.format(application_id=application_id) + url_suffix
+        response = requests.get(url, params=payload, headers=headers).json()
+        result = response['taskAttempts']['taskAttempt']
+    except (TypeError, KeyError) as e:
+        #go to history_server
+        url = settings.APPLICATION_API_URL.format(application_id=application_id) + url_suffix
+        response = requests.get(url, params=payload, headers=headers).json()
+        result = response['taskAttempts']['taskAttempt']
+    return render(request, template_name, locals())
+
+def task_counters(request, application_id, job_id, task_id, template_name="dashboard/task_counters.html"):
+    current_app = 'jobs'
+    current_nav = 'counters'
+    payload  = request.GET.dict()
+    url_suffix = "jobs/{}/tasks/{}/counters".format(job_id, task_id)
+    try:
+        url = settings.APPLICATION_API_URL.format(application_id=application_id) + url_suffix
+        response = requests.get(url, params=payload, headers=headers).json()
+        result = response['jobTaskCounters']['taskCounterGroup']
+    except Exception, e:
+        url = settings.HISTORY_API_URL.format(application_id=application_id) + url_suffix
+        response = requests.get(url, params=payload, headers=headers).json()
+        result = response['jobTaskCounters']['taskCounterGroup']
+    return render(request, template_name, locals())
+
+
+# There is no attempt details, all attempt details are shown in the task_details/ task_attempts page in a table
+def attempt_logs(request):
+    pass

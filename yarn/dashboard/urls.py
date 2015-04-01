@@ -19,5 +19,7 @@ urlpatterns = patterns('dashboard.views',
     url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/tasks/$', 'job_tasks', name="job_tasks"),
 
     #Task related URLs
+    url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/tasks/(?P<task_id>\w+)/$', 'task_details', name="task_details"),
+    url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/tasks/(?P<task_id>\w+)/counters/$', 'task_counters', name="task_counters"),
 
 )

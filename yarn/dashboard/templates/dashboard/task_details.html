@@ -1,4 +1,4 @@
-{% extends 'dashboard/job_base.html' %}
+{% extends 'dashboard/task_base.html' %}
 
 {% block body %}
 
@@ -6,30 +6,30 @@
 <table class='datatable table table-striped'>
     <thead> 
       <tr>
-        <th>Task Id</th>
-        <th>Finish Time</th>
-        <th>Successful Attempt</th>
-        <th>Elapsed Time</th>
+        <th>Attempt</th>
         <th>State</th>
         <th>Status</th>
+        <th>Node</th>
+        <th>Logs</th>
         <th>Start Time</th>
+        <th>Finish Time</th>
+        <th>Elapsed Time</th>
         <th>Progress</th>
-        <th>Type</th>
       </tr>
     </thead>
 
     <tbody>
       {% for el in result%}
       <tr>
-        <td><a href="{% url 'task_details' application_id job_id el.id %}">{{el.id}}</a></td>
-        <td>{{el.finishTime}}</td>
-        <td>{{el.successfulAttempt}}</td>
-        <td>{{el.elapsedTime}}</td>
+        <td>{{el.id}}</td>
         <td>{{el.state}}</td>
         <td>{{el.status}}</td>
+        <td>{{el.nodeHttpAddress}}</td>
+        <td>??</td>
         <td>{{el.startTime}}</td>
+        <td>{{el.finishTime}}</td>
+        <td>{{el.elapsedTime}}</td>
         <td><progress value="{{el.progress}}" max="100"></progress></td>
-        <td>{{el.type}}</td>
       </tr>
       {% endfor %}
 
@@ -52,16 +52,16 @@ $(function(){
       "columnDefs": [
           {
               "render": function ( data, type, row ) {
-                  return moment.duration(Number(data), "milliseconds").humanize();
+                  return moment(Number(data)).format("lll");
               },
-              "targets": [3]
+              "targets": [5,6]
           },
           {
               "render": function ( data, type, row ) {
-                  return moment(Number(data)).format("lll");
+                  return moment.duration(Number(data), "milliseconds").humanize();
               },
-              "targets": [6]
-          },
+              "targets": [7]
+          }
       ]
     });
 });
