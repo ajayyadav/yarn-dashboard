@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.conf import settings
 import requests
 import collections
-
+import datetime
 
 headers = {'Accept': 'application/json'}
 # Create your views here.
@@ -92,10 +92,12 @@ def job_details(request, application_id, job_id):
     running = True
     try:
         result = requests.get(url, params=payload, headers=headers).json()['job']
+        result['startTime'] = datetime.datetime.fromtimestamp(result['startTime']/1000.0).strftime('%Y-%m-%d %H:%M:%S')
         return render(request, "dashboard/active_job_details.html", locals())
     except ValueError:
         running = False
         result = requests.get(settings.HISTORY_API_URL+"jobs/"+job_id, params=payload, headers=headers).json()['job']
+
     return render(request, "dashboard/completed_job_details.html", locals())
 
 
