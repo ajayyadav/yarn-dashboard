@@ -42,3 +42,22 @@
 
 
 {% endblock content %}
+
+{% block datatable %}
+<script type="text/javascript">
+$(function(){
+      /* Init DataTables */
+    var oTable = $('.datatable').dataTable({
+      "pageLength": 20,
+      "columnDefs": [
+          {
+              "render": function ( data, type, row ) {
+                  return moment(Number(data)).format("lll");
+              },
+              "targets": [3]
+          },
+      ]
+    });
+});
+</script>
+{% endblock datatable %}
