@@ -123,19 +123,15 @@ def job_tasks(request, application_id, job_id, template_name="dashboard/job_task
     current_app = 'jobs'
     current_nav = 'tasks'
     payload  = request.GET.dict()
+    if payload.get('type') == 'm':
+        current_nav = 'map-tasks'
+    elif payload.get('type') == 'r':
+        current_nav = 'reduce-tasks'
+
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/tasks".format(job_id)
-    result = requests.get(url, params=payload, headers=headers).json()['tasks']['task']
+    response = requests.get(url, params=payload, headers=headers).json()
+    result = response['tasks']['task']
     return render(request, template_name, locals())
 
-
-
-def tasks_list(request, application_id, job_id, template_name="dashboard/tasks_list.html"):
-    current_app = 'jobs'
-    payload = request.GET.dict()
-
-    result = requests.get(settings.APPLICATION_API_URL.format(application_id=application_id)+"jobs/"+job_id+"/tasks", params=payload, headers=headers).json()['tasks']['task']
-    # result = requests.get(settings.HISTORY_API_URL+"jobs/"+job_id+"/tasks", params=payload, headers=headers).json()
-    # print result
-    return render(request, template_name, locals())
 
 

@@ -28,7 +28,7 @@
         <td>{{el.state}}</td>
         <td>{{el.status}}</td>
         <td>{{el.startTime}}</td>
-        <td>{{el.progress}}</td>
+        <td><progress value="{{el.progress}}" max="100"></progress></td>
         <td>{{el.type}}</td>
       </tr>
       {% endfor %}
