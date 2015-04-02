@@ -51,7 +51,6 @@ def jobs(request, template_name="dashboard/jobs.html"):
     if result:
         result = result['app']
     else:
-        #for what all status should we send the request here??
         result = []
 
     for el in result:

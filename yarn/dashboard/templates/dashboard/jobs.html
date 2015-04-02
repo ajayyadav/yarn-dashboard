@@ -2,6 +2,14 @@
 
 {% block content %}
 
+
+<div class="pull-right">
+  <select name="refresh" id="refresh" class="form-control">
+    <option value="">No Auto Refresh</option>
+    <option value="60" {% if payload.refresh = '60' %}selected{% endif %}>Auto Refresh every 60 seconds</option>
+  </select>
+</div>
+
 <form role="form" class="form-inline" id="filter-form">
     <div class="form-group">
         <label class="sr-only" for="states">State</label>
@@ -87,15 +95,39 @@ No Jobs available matching your criteria!
 
 {% block child_js %}
 <script type="text/javascript">
-$('#filter-form').submit( function(event) {
-    var params = {};
-    params["states"] = $('#states').val();
-    params["queue"] = $('#queue').val();
-    params["user"] = $('#user').val();
-    var newUrl = "?" + $.param(params);
-    window.location.href= newUrl;
-    event.preventDefault();
+$(function(){
+
+  //honor existing refresh interval
+  var params = $.url(window.location.href).param();
+  if (params['refresh']) {
+    setTimeout('window.location.reload();', params['refresh']*1000);
+  };
+
+  //set refresh interval in params
+  $('#refresh').change(function(){
+    var interval = $("#refresh option:selected").val();
+    var params = $.url(window.location.href).param();
+    if (interval) {
+      params['refresh'] = interval;
+    } else {
+      delete params['refresh'];
+    };
+
+    window.location.href="?" + $.param(params);
+
+  });
+
+  $('#filter-form').submit( function(event) {
+      var params = {};
+      params["states"] = $('#states').val();
+      params["queue"] = $('#queue').val();
+      params["user"] = $('#user').val();
+      var newUrl = "?" + $.param(params);
+      window.location.href= newUrl;
+      event.preventDefault();
+  });
 });
+
 
 </script>
 {% endblock child_js %}
@@ -122,6 +154,9 @@ $(function(){
           }
       ]
     });
+
+    
 });
+
 </script>
 {% endblock datatable %}
