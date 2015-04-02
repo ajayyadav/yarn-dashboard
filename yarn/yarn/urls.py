@@ -17,5 +17,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     url(r'^dashboard/', include('dashboard.urls')),
+    url(r'^server/', include('server.urls')),
         
 )
