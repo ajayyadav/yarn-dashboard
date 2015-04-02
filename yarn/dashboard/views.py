@@ -120,7 +120,8 @@ def job_configuration(request, application_id, job_id, template_name="dashboard/
     except (ValueError, TypeError, KeyError) as e:
         url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/conf".format(job_id)
         result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
-        
+    for el in result:
+        el['source']  = ' &#8592; '.join(el['source'])
     return render(request, template_name, locals())
 
 
