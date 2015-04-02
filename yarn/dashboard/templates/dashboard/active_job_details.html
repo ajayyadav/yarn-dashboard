@@ -2,6 +2,17 @@
 
 {% block title %} Application Master - {{result.id}} {% endblock title %}
 
+{% block preheader %}
+
+<div class="pull-right">
+  <select name="refresh" id="refresh" class="form-control">
+    <option value="">No Auto Refresh</option>
+    <option value="60" {% if payload.refresh = '60' %}selected{% endif %}>Auto Refresh every 60 seconds</option>
+  </select>
+</div>
+
+
+{% endblock preheader %}
 {% block body %}
 <!--{{result}} -->
 
@@ -97,3 +108,33 @@ No jobs found!
 {% endif %}
 
 {% endblock body %}
+
+{% block child_js %}
+<script type="text/javascript">
+$(function(){
+
+  //honor existing refresh interval
+  var params = $.url(window.location.href).param();
+  if (params['refresh']) {
+    setTimeout('window.location.reload();', params['refresh']*1000);
+  };
+
+  //set refresh interval in params
+  $('#refresh').change(function(){
+    var interval = $("#refresh option:selected").val();
+    var params = $.url(window.location.href).param();
+    if (interval) {
+      params['refresh'] = interval;
+    } else {
+      delete params['refresh'];
+    };
+
+    window.location.href="?" + $.param(params);
+
+  });
+
+});
+
+
+</script>
+{% endblock child_js %}

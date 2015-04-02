@@ -3,7 +3,7 @@
 {% block title %} Application Master - {{result.id}} {% endblock title %}
 
 {% block content %}
-
+    {% block preheader %} {% endblock preheader %}
     {% block header %}
         <div class="btn-group" role="group" aria-label="">
           <a id="overview" class="btn btn-default" href="{% url 'job_details' application_id job_id %}"> Overview</a>
