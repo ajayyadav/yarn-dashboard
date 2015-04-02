@@ -102,6 +102,11 @@ def job_details(request, application_id, job_id):
     except ValueError:
         running = False
         result = requests.get(settings.HISTORY_API_URL+"jobs/"+job_id, params=payload, headers=headers).json()['job']
+        result['elapsedTime'] = result['finishTime'] - result['startTime'] 
+        result['startTime'] = datetime.datetime.fromtimestamp(result['startTime']/1000.0).strftime('%Y-%m-%d %H:%M:%S')
+        result['submitTime'] = datetime.datetime.fromtimestamp(result['submitTime']/1000.0).strftime('%Y-%m-%d %H:%M:%S')
+        result['finishTime'] = datetime.datetime.fromtimestamp(result['finishTime']/1000.0).strftime('%Y-%m-%d %H:%M:%S')
+
 
     return render(request, "dashboard/completed_job_details.html", locals())
 
@@ -113,7 +118,7 @@ def job_configuration(request, application_id, job_id, template_name="dashboard/
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/conf".format(job_id)
     try:
         result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
-    except (TypeError, KeyError) as e:
+    except (ValueError, TypeError, KeyError) as e:
         url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/conf".format(job_id)
         result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
         
@@ -127,7 +132,7 @@ def job_counters(request, application_id, job_id, template_name="dashboard/job_c
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/counters".format(job_id)
     try:
         result = requests.get(url, params=payload, headers=headers).json()['jobCounters']
-    except (TypeError, KeyError) as e:
+    except (ValueError, TypeError, KeyError) as e:
         url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/counters".format(job_id)
         result = requests.get(url, params=payload, headers=headers).json()['jobCounters']
         
@@ -145,12 +150,16 @@ def job_tasks(request, application_id, job_id, template_name="dashboard/job_task
         current_nav = 'reduce-tasks'
 
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/tasks".format(job_id)
-    response = requests.get(url, params=payload, headers=headers).json()
     try:
-        result = response['tasks']['task']
-    except (TypeError, KeyError) as e:
+        response = requests.get(url, params=payload, headers=headers).json()
+        result = response['tasks']
+    except (ValueError, TypeError, KeyError) as e:
         url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/tasks".format(job_id)
-        result = requests.get(url, params=payload, headers=headers).json()['tasks']['task']
+        result = requests.get(url, params=payload, headers=headers).json()
+        result = result['tasks']
+
+    if result:
+        result = result['task']
             
     return render(request, template_name, locals())
 
