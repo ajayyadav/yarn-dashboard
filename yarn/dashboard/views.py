@@ -1,6 +1,7 @@
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
+from django.http import HttpResponse
 import requests
 import collections
 import datetime
@@ -61,10 +62,14 @@ def jobs(request, template_name="dashboard/jobs.html"):
 def application_master_details(request, application_id, template_name="dashboard/application_master_details.html"):
     
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "info/"
-    print url 
-    am_details = requests.get(url, headers=headers).json()['info']
-    am_details = collections.OrderedDict(sorted(am_details.items()))
-    am_details['Application Jobs'] = reverse('dashboard.views.application_jobs', args=[application_id])
+    try:
+        am_details = requests.get(url, headers=headers).json()['info']
+        am_details = collections.OrderedDict(sorted(am_details.items()))
+        am_details['Application Jobs'] = reverse('dashboard.views.application_jobs', args=[application_id])
+    except Exception as e:
+        job_id = application_id.replace("application_", "job_")
+        return redirect('dashboard.views.job_details', application_id=application_id, job_id=job_id)
+        
     return render(request, template_name, locals())
 
 
@@ -73,7 +78,7 @@ def application_jobs(request, application_id, template_name="dashboard/applicati
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/"
     try:
         result = requests.get(url, headers=headers).json()['jobs']['job']
-    except (TypeError, KeyError) as e:
+    except Exception as e:
         url = settings.HISTORY_API_URL.format(application_id=application_id) + "jobs/"
         result = requests.get(url, headers=headers).json()['jobs']['job']
     return render(request, template_name, locals())
@@ -95,12 +100,15 @@ def job_details(request, application_id, job_id):
     url = settings.APPLICATION_API_URL.format(application_id=application_id)+"jobs/"+job_id
     running = True
     try:
-        result = requests.get(url, params=payload, headers=headers).json()['job']
+        result = requests.get(url, params=payload, headers=headers)
+        result = result.json()['job']
         result['startTime'] = datetime.datetime.fromtimestamp(result['startTime']/1000.0).strftime('%Y-%m-%d %H:%M:%S')
         return render(request, "dashboard/active_job_details.html", locals())
-    except ValueError:
+    except Exception as e:
         running = False
-        result = requests.get(settings.HISTORY_API_URL+"jobs/"+job_id, params=payload, headers=headers).json()['job']
+        url = settings.HISTORY_API_URL + "jobs/" + job_id
+        result = requests.get(url, params=payload, headers=headers)
+        result = result.json()['job']
         result['elapsedTime'] = result['finishTime'] - result['startTime'] 
         result['startTime'] = datetime.datetime.fromtimestamp(result['startTime']/1000.0).strftime('%Y-%m-%d %H:%M:%S')
         result['submitTime'] = datetime.datetime.fromtimestamp(result['submitTime']/1000.0).strftime('%Y-%m-%d %H:%M:%S')
@@ -117,7 +125,7 @@ def job_configuration(request, application_id, job_id, template_name="dashboard/
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/conf".format(job_id)
     try:
         result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
-    except (ValueError, TypeError, KeyError) as e:
+    except Exception as e:
         url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/conf".format(job_id)
         result = requests.get(url, params=payload, headers=headers).json()['conf']['property']
     for el in result:
@@ -132,7 +140,7 @@ def job_counters(request, application_id, job_id, template_name="dashboard/job_c
     url = settings.APPLICATION_API_URL.format(application_id=application_id) + "jobs/{}/counters".format(job_id)
     try:
         result = requests.get(url, params=payload, headers=headers).json()['jobCounters']
-    except (ValueError, TypeError, KeyError) as e:
+    except Exception as e:
         url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/counters".format(job_id)
         result = requests.get(url, params=payload, headers=headers).json()['jobCounters']
         
@@ -140,7 +148,7 @@ def job_counters(request, application_id, job_id, template_name="dashboard/job_c
     return render(request, template_name, locals())
 
 
-def job_tasks(request, application_id, job_id, template_name="dashboard/job_tasks.html"):
+def job_tasks(request, application_id, job_id, status=None, template_name="dashboard/job_tasks.html"):
     current_app = 'jobs'
     current_nav = 'tasks'
     payload  = request.GET.dict()
@@ -153,35 +161,43 @@ def job_tasks(request, application_id, job_id, template_name="dashboard/job_task
     try:
         response = requests.get(url, params=payload, headers=headers).json()
         result = response['tasks']
-    except (ValueError, TypeError, KeyError) as e:
+    except Exception as e:
         url = settings.HISTORY_API_URL.format(application_id=application_id) +"jobs/{}/tasks".format(job_id)
         result = requests.get(url, params=payload, headers=headers).json()
         result = result['tasks']
 
     if result:
         result = result['task']
-            
+        if status:
+            result = [el for el in result if el['state'] == status ]
     return render(request, template_name, locals())
 
 
 # task_details is just showing all attempts in the task(task_attempts)
+# this is analogous to task_attempts
 def task_details(request, application_id, job_id, task_id, template_name="dashboard/task_details.html"):
     current_app = 'jobs'
     current_nav = 'overview'
     payload  = request.GET.dict()
-    
 
     url_suffix = "jobs/{}/tasks/{}/attempts".format(job_id, task_id)
     try:
         url = settings.HISTORY_API_URL.format(application_id=application_id) + url_suffix
         response = requests.get(url, params=payload, headers=headers).json()
         result = response['taskAttempts']['taskAttempt']
-    except (TypeError, KeyError) as e:
+    except Exception as e:
         #go to history_server
         url = settings.APPLICATION_API_URL.format(application_id=application_id) + url_suffix
-        response = requests.get(url, params=payload, headers=headers).json()
-        result = response['taskAttempts']['taskAttempt']
+        response = requests.get(url, params=payload, headers=headers)
+        try:
+            response = response.json()
+            result = response['taskAttempts']['taskAttempt']
+        except Exception as e:
+            result = response.text
+            return HttpResponse(result, content_type='text/html')
+        
     return render(request, template_name, locals())
+
 
 def task_counters(request, application_id, job_id, task_id, template_name="dashboard/task_counters.html"):
     current_app = 'jobs'
@@ -192,7 +208,7 @@ def task_counters(request, application_id, job_id, task_id, template_name="dashb
         url = settings.APPLICATION_API_URL.format(application_id=application_id) + url_suffix
         response = requests.get(url, params=payload, headers=headers).json()
         result = response['jobTaskCounters']['taskCounterGroup']
-    except Exception, e:
+    except Exception as e:
         url = settings.HISTORY_API_URL.format(application_id=application_id) + url_suffix
         response = requests.get(url, params=payload, headers=headers).json()
         result = response['jobTaskCounters']['taskCounterGroup']
@@ -200,5 +216,16 @@ def task_counters(request, application_id, job_id, task_id, template_name="dashb
 
 
 # There is no attempt details, all attempt details are shown in the task_details/ task_attempts page in a table
-def attempt_logs(request):
-    pass
+def attempt_counters(request, application_id, job_id, task_id, attempt_id, template_name="dashboard/attempt_counters.html"):
+    url_suffix = "jobs/{}/tasks/{}/attempts/{}/counters".format(job_id, task_id, attempt_id)
+    payload  = request.GET.dict()
+    current_app = 'jobs'
+    try:
+        url = settings.APPLICATION_API_URL.format(application_id=application_id) + url_suffix
+        response = requests.get(url, params=payload, headers=headers).json()
+        result = response['jobTaskAttemptCounters']['taskAttemptCounterGroup']
+    except Exception as e:
+        url = settings.HISTORY_API_URL.format(application_id=application_id) + url_suffix
+        response = requests.get(url, params=payload, headers=headers).json()
+        result = response['jobTaskAttemptCounters']['taskAttemptCounterGroup']
+    return render(request, template_name, locals())

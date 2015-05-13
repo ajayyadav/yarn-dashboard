@@ -19,7 +19,7 @@
     </thead>
 
     <tbody>
-      {% for el in result%}
+      {% for el in result %}
       <tr>
         <td><a href="{% url 'task_details' application_id job_id el.id %}">{{el.id}}</a></td>
         <td>{{el.finishTime}}</td>

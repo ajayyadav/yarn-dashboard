@@ -25,7 +25,7 @@
     <tr>  <td> <b> State:</b> </td>           <td>{{result.state}}</td>           </tr>
     <tr>  <td> <b> Uberized:</b>  </td>       <td>{{result.uberized}}</td>        </tr>
     <tr>  <td> <b> Started:</b> </td>         <td>{{result.startTime}}</td>       </tr>
-    <tr>  <td> <b> Elapsed:</b> </td>         <td>{{result.elapsedTime}}</td>     </tr>
+    <tr>  <td> <b> Elapsed:</b> </td>         <td id="elapsed">{{result.elapsedTime}}</td>     </tr>
   </tbody>
 </table>
 
@@ -43,10 +43,11 @@
     </thead>
     <tbody>
       <tr>
+{{result.reducesCompleted}}
         <td><a href="{% url 'job_tasks' application_id job_id %}?type=m"> Map</a></td>
-        <td>{{result.mapsTotal}}</td>
-        <td>{{result.mapsCompleted}}</td>
-        <td>{% if result.mapsRunning %}{{result.mapsRunning}}{% else %} 0 {% endif %}</td>
+        <td><a href="{% url 'job_tasks' application_id job_id %}?type=m">{{result.mapsTotal}}</a></td>
+        <td><a href="{% url 'job_tasks' application_id job_id 'SUCCEEDED' %}?type=m">{{result.mapsCompleted}}</a></td>
+        <td>{% if result.mapsRunning %}<a href="{% url 'job_tasks' application_id job_id 'RUNNING' %}?type=m">{{result.mapsRunning}}</a>{% else %} 0 {% endif %}</td>
         <td>{{result.mapsPending}}</td>
         <td><progress value="{{result.mapProgress}}" max="100"></progress></td>
       </tr>
@@ -54,11 +55,12 @@
       <tr>
         {% if result.reducesTotal > 0 %}
           <td><a href="{% url 'job_tasks' application_id job_id %}?type=r">Reduce</a></td>
-          <td>{{result.reducesTotal}}</td>
-          <td>{{result.reducesCompleted}}</td>
-          <td>{{result.reducesRunning}}</td>
+
+          <td><a href="{% url 'job_tasks' application_id job_id %}?type=r">{{result.reducesTotal}}</a></td>
+          <td><a href="{% url 'job_tasks' application_id job_id 'SUCCEEDED' %}?type=r">{{result.reducesCompleted}}</a></td>
+          <td>{% if result.reducesRunning %}<a href="{% url 'job_tasks' application_id job_id 'RUNNING' %}?type=r">{{result.reducesRunning}}</a>{% else %} 0 {% endif %}</td>
           <td>{{result.reducesPending}}</td>
-          <td>{{result.reduceProgress}}</td> 
+          <td><progress value="{{result.reduceProgress}}" max="100"></progress></td> 
         {% else %}
           <td>Reduce</td>
           <td>0</td>
@@ -111,6 +113,40 @@ No jobs found!
 
 {% block child_js %}
 <script type="text/javascript">
+// function millisecondsToStr (milliseconds) {
+  // TIP: to find current time in milliseconds, use:
+  // var  current_time_milliseconds = new Date().getTime();
+
+//   function numberEnding (number) {
+//       return (number > 1) ? 's' : '';
+//   }
+
+//   var temp = Math.floor(milliseconds / 1000);
+//   var years = Math.floor(temp / 31536000);
+//   if (years) {
+//       return years + ' year' + numberEnding(years);
+//   }
+//   //TODO: Months! Maybe weeks? 
+//   var days = Math.floor((temp %= 31536000) / 86400);
+//   if (days) {
+//       return days + ' day' + numberEnding(days);
+//   }
+//   var hours = Math.floor((temp %= 86400) / 3600);
+//   if (hours) {
+//       return hours + ' hour' + numberEnding(hours);
+//   }
+//   var minutes = Math.floor((temp %= 3600) / 60);
+//   if (minutes) {
+//       return minutes + ' minute' + numberEnding(minutes);
+//   }
+//   var seconds = temp % 60;
+//   if (seconds) {
+//       return seconds + ' second' + numberEnding(seconds);
+//   }
+//   return 'less than a second'; //'just now' //or other string you like;
+// }
+
+
 $(function(){
 
   //honor existing refresh interval
@@ -132,6 +168,12 @@ $(function(){
     window.location.href="?" + $.param(params);
 
   });
+
+  var i = moment.duration(Number($('#elapsed').text()), "milliseconds").humanize();
+  $('#elapsed').text(i);
+  // var i = $('#elapsed').text();
+  // $('#elapsed').text(millisecondsToStr(i));
+
 
 });
 

@@ -7,7 +7,7 @@ urlpatterns = patterns('dashboard.views',
     url(r'^nodes$', 'nodes', name="nodes"),
     url(r'^queues$', 'queues', name="queues"),
     url(r'^jobs', 'jobs', name="jobs"),
-    url(r'^apps/(?P<application_id>\w+)/$', 'application_master_details', name="application_master_details"),
+    url(r'^app/(?P<application_id>\w+)/$', 'application_master_details', name="application_master_details"),
     
     # url(r'^app/(?P<application_id>\w+)/$', 'application_details', name="application_details"),
     url(r'^app/(?P<application_id>\w+)/jobs/$', 'application_jobs', name="application_jobs"),
@@ -17,9 +17,12 @@ urlpatterns = patterns('dashboard.views',
     url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/conf/$', 'job_configuration', name="job_configuration"),
     url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/counters/$', 'job_counters', name="job_counters"),
     url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/tasks$', 'job_tasks', name="job_tasks"),
+    url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/tasks/status/(?P<status>\w+)$', 'job_tasks', name="job_tasks"),
 
     #Task related URLs
     url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/tasks/(?P<task_id>\w+)/$', 'task_details', name="task_details"),
     url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/tasks/(?P<task_id>\w+)/counters/$', 'task_counters', name="task_counters"),
 
+    #Attempt related URLs
+    url(r'^app/(?P<application_id>\w+)/job/(?P<job_id>\w+)/tasks/(?P<task_id>\w+)/attempt/(?P<attempt_id>\w+)/counters$', 'attempt_counters', name="attempt_counters"),
 )

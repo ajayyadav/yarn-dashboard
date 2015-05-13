@@ -1,0 +1,36 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+<h3>Counters for attempt: {{attempt_id}}</h3>
+
+{% if result %}
+{% for counterGroup in result %}
+{{counterGroup.counterGroupName}}
+<table class='table table-striped'>
+    <thead> 
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for el in counterGroup.counter %}
+      <tr>
+        <td>{{el.name}}</td>
+        <td>{{el.value}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>
+
+{% endfor %}
+
+{% else %}
+No Jobs available matching your criteria!
+
+{% endif %}
+
+{% endblock content %}
