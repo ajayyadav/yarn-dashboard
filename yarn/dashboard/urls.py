@@ -4,6 +4,8 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('dashboard.views',
     # url(r'^(?P<type>[a-z]+)/(?P<name>[0-9a-zA-Z@\-]+)/$', 'entity_details', name="entity_details"),
     url(r'^$', 'cluster', name="cluster"),
+    url(r'^testing/$', 'hack', name="hack"),
+    url(r'^hack2/$', 'hack2', name="hack2"),
     url(r'^nodes$', 'nodes', name="nodes"),
     url(r'^queues$', 'queues', name="queues"),
     url(r'^jobs', 'jobs', name="jobs"),
